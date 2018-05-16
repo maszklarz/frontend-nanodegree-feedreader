@@ -136,6 +136,7 @@ $(function() {
         it('modifies entries in .feed if new feed is loaded', function(done) {
             expect(feedId).toBeDefined();
             expect(feedId).toBe(2);
+            expect(feedId).toBeLessThan(allFeeds.length);
             expect(initialTitle).toBeDefined();
             expect(initialTitle).not.toBe('');
             expect($('.feed .entry h2').html()).not.toBe(initialTitle);
