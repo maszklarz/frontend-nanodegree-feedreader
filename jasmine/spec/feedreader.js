@@ -62,21 +62,21 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-         it('is hidden by default', function(){
-             expect($('body').hasClass('menu-hidden')).toBe(true);
-         });
+        it('is hidden by default', function(){
+            expect($('body').hasClass('menu-hidden')).toBe(true);
+        });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
-         it('changes visibility when clicked', function(){
-             $('.icon-list').click();
-             expect($('body').hasClass('menu-hidden')).not.toBe(true);
-             $('.icon-list').click();
-             expect($('body').hasClass('menu-hidden')).toBe(true);
-         });
+        /* TODO: Write a test that ensures the menu changes
+         * visibility when the menu icon is clicked. This test
+         * should have two expectations: does the menu display when
+         * clicked and does it hide when clicked again.
+         */
+        it('changes visibility when clicked', function(){
+            $('.icon-list').click();
+            expect($('body').hasClass('menu-hidden')).not.toBe(true);
+            $('.icon-list').click();
+            expect($('body').hasClass('menu-hidden')).toBe(true);
+        });
     });
 
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -87,6 +87,17 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+		 
+		beforeEach(function(done) {
+			loadFeed(0, function() {
+				done();
+			}) 
+		});
+		 
+		it('are added to feed by loadFeed()', function(done) {
+			expect($('.feed .entry').length).not.toBe(0);
+			done();
+		});
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
@@ -95,5 +106,31 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+		var feedId = 0;
+		var initialTitle = '';
+		 
+		beforeEach(function(done) {
+			loadFeed(feedId, function() {
+			    done();
+			});
+		    feedId++;
+		});
+		
+		/* Load the initial feed */
+		it('adds entries to .feed', function(done) {
+		    expect($('.feed .entry h2').length).toBeGreaterThan(0);
+		    initialTitle = $('.feed .entry h2').html();
+			done();
+		});
+
+		/* Load the next feed. The beforeEach() makes sure the feedId is different.
+		 * Note: The comparison is based on the title of the first element of each feed.
+		 *       There is a small chance the title is the same in two unrelated feeds.
+		 *       In such a case the test would fail.
+		 */
+		it('modifies entries in .feed if new feed is loaded', function(done) {
+			expect($('.feed .entry h2').html()).not.toBe(initialTitle);
+			done();
+		});
     });
 }());

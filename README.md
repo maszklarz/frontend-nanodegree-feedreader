@@ -15,7 +15,7 @@ The tests code (specs) is located in jasmine/spec/feedreader.js
 Testing framework: Jasmine 2.1.2
 Fonts: http://fonts.googleapis.com
 CSS help library: normalize.css v3.0.2
-Menu: handlebars v2.0.0
+Menu compiler: handlebars v2.0.0
 Feed reading api: google.com/jsapi
 
 ## Contributing
