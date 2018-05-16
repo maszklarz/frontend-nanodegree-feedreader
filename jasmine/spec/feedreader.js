@@ -106,39 +106,33 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        var feedId = 0;
         var initialTitle = '';
 
         beforeEach(function(done) {
-            loadFeed(feedId, function() {
-                done();
+            /* The first call to loadFeed */
+            loadFeed(0, function() {
+                initialTitle = $('.feed .entry h2').html();
+                /* The second call to loadFeed() is in the first loadFeed's callback
+                 * to ensure the second loadFeed() call occurs after the first one
+                 * is completed.
+                 */
+                loadFeed(1, function() {
+                    done();
+                });
             });
-            feedId++;
         });
 
-        /* Load the initial feed */
-        it('adds entries to .feed', function(done) {
-            expect(feedId).toBeDefined();
-            expect(feedId).toBe(1);
-            expect($('.feed .entry h2').length).toBeDefined(0);
-            expect($('.feed .entry h2').length).toBeGreaterThan(0);
-            initialTitle = $('.feed .entry h2').html();
-            expect(initialTitle).toBeDefined();
-            expect(initialTitle).not.toBe('');
-            done();
-        });
-
-        /* Load the next feed. The beforeEach() makes sure the feedId is different.
-         * Note: The comparison is based on the title of the first element of each feed.
-         *       There is a small chance the title is the same in two unrelated feeds.
-         *       In such a case the test would fail.
+        /* Compare results of first and second loadFeed()
+         * The comparison is based on the title of the first element of each feed.
+         * There is a small chance the title is the same in two unrelated feeds.
+         * In such a case the test would fail.
          */
         it('modifies entries in .feed if new feed is loaded', function(done) {
-            expect(feedId).toBeDefined();
-            expect(feedId).toBe(2);
-            expect(feedId).toBeLessThan(allFeeds.length);
+            expect($('.feed .entry h2').length).toBeGreaterThan(0);
             expect(initialTitle).toBeDefined();
             expect(initialTitle).not.toBe('');
+            expect($('.feed .entry h2').html()).toBeDefined();
+            expect($('.feed .entry h2').html()).not.toBe('');
             expect($('.feed .entry h2').html()).not.toBe(initialTitle);
             done();
         });
