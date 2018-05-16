@@ -87,17 +87,17 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-		 
-		beforeEach(function(done) {
-			loadFeed(0, function() {
-				done();
-			}) 
-		});
-		 
-		it('are added to feed by loadFeed()', function(done) {
-			expect($('.feed .entry').length).not.toBe(0);
-			done();
-		});
+
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+                done();
+            })
+        });
+
+        it('are added to feed by loadFeed()', function(done) {
+            expect($('.feed .entry').length).toBeGreaterThan(0);
+            done();
+        });
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
@@ -106,31 +106,40 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-		var feedId = 0;
-		var initialTitle = '';
-		 
-		beforeEach(function(done) {
-			loadFeed(feedId, function() {
-			    done();
-			});
-		    feedId++;
-		});
-		
-		/* Load the initial feed */
-		it('adds entries to .feed', function(done) {
-		    expect($('.feed .entry h2').length).toBeGreaterThan(0);
-		    initialTitle = $('.feed .entry h2').html();
-			done();
-		});
+        var feedId = 0;
+        var initialTitle = '';
 
-		/* Load the next feed. The beforeEach() makes sure the feedId is different.
-		 * Note: The comparison is based on the title of the first element of each feed.
-		 *       There is a small chance the title is the same in two unrelated feeds.
-		 *       In such a case the test would fail.
-		 */
-		it('modifies entries in .feed if new feed is loaded', function(done) {
-			expect($('.feed .entry h2').html()).not.toBe(initialTitle);
-			done();
-		});
+        beforeEach(function(done) {
+            loadFeed(feedId, function() {
+                done();
+            });
+            feedId++;
+        });
+
+        /* Load the initial feed */
+        it('adds entries to .feed', function(done) {
+            expect(feedId).toBeDefined();
+            expect(feedId).toBe(1);
+            expect($('.feed .entry h2').length).toBeDefined(0);
+            expect($('.feed .entry h2').length).toBeGreaterThan(0);
+            initialTitle = $('.feed .entry h2').html();
+            expect(initialTitle).toBeDefined();
+            expect(initialTitle).not.toBe('');
+            done();
+        });
+
+        /* Load the next feed. The beforeEach() makes sure the feedId is different.
+         * Note: The comparison is based on the title of the first element of each feed.
+         *       There is a small chance the title is the same in two unrelated feeds.
+         *       In such a case the test would fail.
+         */
+        it('modifies entries in .feed if new feed is loaded', function(done) {
+            expect(feedId).toBeDefined();
+            expect(feedId).toBe(2);
+            expect(initialTitle).toBeDefined();
+            expect(initialTitle).not.toBe('');
+            expect($('.feed .entry h2').html()).not.toBe(initialTitle);
+            done();
+        });
     });
 }());
