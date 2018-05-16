@@ -12,11 +12,11 @@ The main JS code for the app is located in js/app.js
 The tests code (specs) is located in jasmine/spec/feedreader.js
 
 ## Dependencies
-Testing framework: Jasmine 2.1.2
-Fonts: http://fonts.googleapis.com
-CSS help library: normalize.css v3.0.2
-Menu compiler: handlebars v2.0.0
-Feed reading api: google.com/jsapi
+- Testing framework: Jasmine 2.1.2
+- Fonts: http://fonts.googleapis.com
+- CSS help library: normalize.css v3.0.2
+- Menu compiler: handlebars v2.0.0
+- Feed reading api: google.com/jsapi
 
 ## Contributing
 Pull requests are not expected, but may be accepted if they occur ;-)
